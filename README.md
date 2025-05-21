@@ -9,6 +9,8 @@ This lets me:
 - Focus on visual aspects when writing Tailwind styles.
 - Keep components readable, without a myriad classes getting in the way.
 
+**NOTE that this library was found to be a convoluted way to do what you can achieve with Tailwind alone.** See [Solving with Tailwind alone](#solving-with-tailwind-alone) below.
+
 ## The problem
 
 Say, you have a component written in hiccup. For example:
@@ -42,9 +44,11 @@ You can see how adding just a few classes to most of the tags can get hard to re
 
 ## Remolino's solution
 
+**(See [Solving with Tailwind alone](#solving-with-tailwind-alone) for a simpler way.)**
+
 Decouple styles from markup structure by using BEM, a theme map, and a macro to combine them.
 
-### Write hiccup using the BEM naming convention. 
+### 1. Write hiccup using the BEM naming convention. 
 
 [BEM stands for block element modifier](https://getbem.com/introduction/). BEM proposes using classes to name
 
@@ -54,7 +58,7 @@ Decouple styles from markup structure by using BEM, a theme map, and a macro to 
 
 The reason I like BEM is that the class names convey the structure and purpose of the markup, with little ambiguity.
 
-### Write a theme map
+### 2. Write a theme map
 
 A Remolino theme map is a container that tells us what classes to apply to which markup elements.
 
@@ -81,7 +85,7 @@ A Remolino theme map is a container that tells us what classes to apply to which
 })
 ```
 
-### Make a theming macro
+### 3. Make a theming macro
 
 Combine your theme with the functions provided by Remolino to make a macro that transforms your hiccup into themed hiccup:
 
@@ -97,7 +101,7 @@ Combine your theme with the functions provided by Remolino to make a macro that 
    component))
 ```
 
-### Apply the theme to your components
+### 4. Apply the theme to your components
 
 ```clojure
 (ns my-app.views
@@ -129,6 +133,33 @@ So, the chain of requires (the one that worked for me, at least) is as follows:
 - You write your macro in a .clj file.
 - You create a .cljc file to bring your macro to the .cljs world.
 - You then require the macro from the file that contains your components.
+
+## Solving with Tailwind alone
+
+Thank you @cjohansen for pointing out a simpler path.
+
+While the documentation for Tailwind 4.x removed the use of `@apply` from the examples in _avoiding duplication_, the `@apply` directive is still there. This allows you to compose new utility classes out of existing ones.
+
+Say you have a component, like the one we've been using as example:
+
+```clojure
+(defn book-card [book]
+ [:div.book-card
+  [:div.book-card__picture [:img {:src (:cover-image book)}]
+  [:h2.book-card__title (:title book)]]])
+```
+
+Then, in CSS, you can do:
+
+```CSS
+@import "tailwindcss";
+
+@utility book-card__title {
+  @apply text-xl bg-violet-700 border border-red-700;
+}
+```
+
+This is the composition that you can achieve with Remolino, but with less moving parts. So unless there's a good reason, consider the library dead. We remain thankful for the more than 10,800 seconds of service it provided to a single user.
 
 <small>
 
