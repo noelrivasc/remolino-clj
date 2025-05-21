@@ -1,7 +1,7 @@
 
 ## About Remolino
 
-Remolino is a tiny library that helps you keep Tailwind styles independent from the hiccup components they are applied to.
+Remolino is a tiny library (really, 29 lines) that helps you keep Tailwind styles independent from the hiccup components they are applied to.
 
 This lets me:
 
@@ -36,13 +36,13 @@ Then, you want to add Tailwind classes to style it. That's easy (but ugly):
 
 You can see how adding just a few classes to most of the tags can get hard to read and ugly. This way of adding styles can also lead to dirty diffs and it's just distracting.
 
-When I write hiccup, I want to focus on functional aspects —markup, data, subs, events, that sort of stuff.
-
-When I apply styles, I want to focus on visual aspects, and I prefer having clean commit diffs whose intention is evident.
+- When I write hiccup, I want to focus on functional aspects —markup, data, subs, events.
+- When I apply styles, I want to focus on visual aspects.
+- I like clean commit diffs whose intention is evident.
 
 ## Remolino's solution
 
-To decouple styles from markup, this is my approach:
+Decouple styles from markup structure by using BEM, a theme map, and a macro to combine them.
 
 ### Write hiccup using the BEM naming convention. 
 
