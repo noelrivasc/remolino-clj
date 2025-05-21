@@ -27,5 +27,3 @@
                      form)) ; - else - not a vector starting with a keyword
                  hiccup)] ; - else - no theme for component
      result)))
-
-(defn test-remolineando [] (println "Andamos acá, remolineando."))
